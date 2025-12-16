@@ -3,9 +3,10 @@ import type { Client } from "../types/client"
 
 type Props = {
     clients: Client[]
+    onSelectClient: (client: Client) => void
 }
 
-export const ClientTable = ({ clients }: Props) => {
+export const ClientTable = ({ clients, onSelectClient }: Props) => {
     return (
         <Table>
             <TableHead>
@@ -18,7 +19,7 @@ export const ClientTable = ({ clients }: Props) => {
 
             <TableBody>
                 {clients.map(client => (
-                    <TableRow key={client.id}>
+                    <TableRow key={client.id} onClick={() => onSelectClient(client)}>
                         <TableCell>{client.id}</TableCell>
                         <TableCell>{client.name}</TableCell>
                         <TableCell>{client.email}</TableCell>
