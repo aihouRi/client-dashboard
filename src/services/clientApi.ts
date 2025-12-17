@@ -1,7 +1,7 @@
 import type { Client } from "../types/client";
 
 export const FetchClients = (): Promise<Client[]> => {
-  const shouldFail = Math.random() > 0.5;
+  const shouldFail = Math.random() > 0.99;
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (shouldFail) {
