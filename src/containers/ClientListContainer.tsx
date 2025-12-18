@@ -86,6 +86,12 @@ export const ClientListContainer = () => {
         setDraweropen(true)
     }
 
+    const handleDelete = () => {
+        if (!selectdClient) return
+        setClients(prev => prev.filter(c => c.id !== selectdClient.id))
+        handleCloseDrawer()
+    }
+
     useEffect(() => {
         const loadClients = async () => {
             try {
@@ -115,6 +121,7 @@ export const ClientListContainer = () => {
                         <p>{selectdClient.name}</p>
                         <p>{selectdClient.email}</p>
                         <button onClick={handleEdit}>Edit</button>
+                        <button onClick={handleDelete}>Delete</button>
                     </div>
                 )}
 
