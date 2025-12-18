@@ -1,73 +1,73 @@
-# React + TypeScript + Vite
+# Client Management UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript を用いて実装した、クライアント管理用のフロントエンドアプリケーションです。  
+一覧表示から詳細確認、作成・編集・削除（CRUD）までの一連の操作を通じて、状態管理や UI 設計の理解を目的として開発しました。
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 概要
 
-## React Compiler
+本プロジェクトは、クライアント情報（名前・メールアドレス）を管理するシンプルな管理画面です。  
+Table と Drawer を用いた UI を採用し、ユーザー操作に応じて表示状態を切り替えることで、実務に近いフロントエンド実装を意識しています。
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 主な機能
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- クライアント一覧表示
+- クライアント詳細表示（Drawer）
+- クライアント新規作成（Create）
+- クライアント編集（Edit）
+- クライアント削除（Delete）
+- ローディング・エラー状態の表示
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 技術スタック
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- React
+- TypeScript
+- MUI（Material UI）
+- Hooks（useState / useEffect）
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+※ 本プロジェクトではフロントエンド実装に集中するため、データ取得はモック API を使用しています。
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 設計・実装のポイント
+
+- **Container / Component 分離**  
+  データ取得や状態管理は Container に集約し、UI コンポーネントは表示に専念させています。
+
+- **UI 状態の明確化（状態機械的な設計）**  
+  Drawer の状態を `mode（view / edit / create / null）` で一元管理し、状態の混在を防止しています。
+
+- **不可変更新の徹底**  
+  `map` / `filter` / `append` を用いた配列更新により、React における安全な状態更新を行っています。
+
+- **実務を意識した実装**  
+  Create / Edit / Delete それぞれで異なる終了動作（Cancel / Close）を明確に分け、ユーザー操作の意味に沿った状態遷移を実装しています。
+
+---
+
+## このプロジェクトの目的
+
+- React + TypeScript による基本的な状態管理の理解
+- CRUD UI における実践的な設計思考の習得
+- フロントエンドにおける「なぜこの実装にするのか」を説明できる状態になること
+
+---
+
+## 今後の改善アイデア（Optional）
+
+- Delete 操作時の確認ダイアログ追加
+- Drawer コンポーネントの切り出し
+- API 実装と連携したフルスタック化
+
+---
+
+## 起動方法
+
+```bash
+npm install
+npm run dev
