@@ -13,17 +13,20 @@ export const ClientListContainer = () => {
     const [selectdClient, setselectedClients] = useState<Client | null>(null)
     const [drawerOpen, setDraweropen] = useState(false)
 
-    const [isEditing, setEditing] = useState(false)
     const [form, setForm] = useState({
         name: "",
         email: ""
     })
 
     const [isSaving, setIsSaving] = useState(false)
-    const [mode, setmode] = useState<"create" | "edit" | null>(null)
+
+    type ViewMode = "view" | "edit" | "create" | null
+
+    const [mode, setmode] = useState<ViewMode>(null)
 
     const handSelectClient = (client: Client) => {
         setselectedClients(client)
+        setmode("view")
         setDraweropen(true)
     }
 
@@ -34,17 +37,23 @@ export const ClientListContainer = () => {
     }
 
     const resetEditingState = () => {
-        setEditing(false)
+        setmode("view")
         setForm({ name: "", email: "" })
     }
 
+    const createModeCancel = () => {
+        setmode(null)
+        setForm({ name: "", email: "" })
+        setDraweropen(false)
+    }
+
     const handleEdit = () => {
+        setmode("edit")
         if (!selectdClient) return
         setForm({
             name: selectdClient.name,
             email: selectdClient.email
         })
-        setEditing(true)
     }
 
     const handleSave = () => {
@@ -65,7 +74,6 @@ export const ClientListContainer = () => {
             }
 
             setIsSaving(false)
-            setEditing(false)
             setDraweropen(false)
             setForm({ name: "", email: "" })
         }, 1000);
@@ -102,7 +110,7 @@ export const ClientListContainer = () => {
             <ClientTable clients={clients} onSelectClient={handSelectClient} />
 
             <Drawer open={drawerOpen} onClose={handleCloseDrawer}>
-                {!isEditing && selectdClient && (
+                {mode === "view" && selectdClient && (
                     <div>
                         <p>{selectdClient.name}</p>
                         <p>{selectdClient.email}</p>
@@ -118,7 +126,7 @@ export const ClientListContainer = () => {
                         <button onClick={handleSave} disabled={isSaving}>
                             {isSaving ? "Saving..." : "Save"}
                         </button>
-                        <button onClick={resetEditingState} disabled={isSaving}>Cancel</button>
+                        {mode === "create" ? (<button onClick={createModeCancel} disabled={isSaving}>Cancel</button>) : (<button onClick={resetEditingState} disabled={isSaving}>Cancel</button>)}
                     </>
                 )
                 }
